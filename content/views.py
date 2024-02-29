@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from .models import Post, Like, Comment
-from .serializers import PostSerializer, LikeSerializer, CommentSerializer
+from .models import Post
+from .serializers import PostSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -15,13 +15,3 @@ class PostViewSet(viewsets.ModelViewSet):
         instance.save()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
-
-
-class LikeViewSet(viewsets.ModelViewSet):
-    queryset = Like.objects.all()
-    serializer_class = LikeSerializer
-
-
-class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer

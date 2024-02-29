@@ -1,5 +1,3 @@
-import re
-
 from django.contrib.auth import get_user_model
 from django.core.validators import FileExtensionValidator
 from django.db import models
@@ -38,32 +36,3 @@ class Media(TimeStampedModel):
 
     def __str__(self):
         return f"{self.media_type} of {self.post} at {self.created}"
-
-
-class Like(TimeStampedModel):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.post} liked by {self.user}"
-
-
-class Comment(TimeStampedModel):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    text = models.TextField()
-    mentions = models.ManyToManyField(User, related_name='mentioned_in_comments', blank=True)
-
-    def __str__(self):
-        return f"{self.text} commented by {self.user}"
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        self.mentions.clear()  # Clear existing mentions to avoid duplicates
-        mentioned_usernames = re.findall(r'@(\w+)', self.text)
-        for username in mentioned_usernames:
-            try:
-                user = User.objects.get(username=username)
-                self.mentions.add(user)
-            except User.DoesNotExist:
-                pass

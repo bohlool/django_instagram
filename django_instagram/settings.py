@@ -31,8 +31,9 @@ INSTALLED_APPS = [
     'django_filters',
 
     "user_profiles.apps.UserProfilesConfig",
-    "instagram.apps.InstagramConfig",
+    "content.apps.InstagramConfig",
     "direct.apps.DirectConfig",
+    "user_activities.apps.UserActivitiesConfig"
 ]
 
 MIDDLEWARE = [
