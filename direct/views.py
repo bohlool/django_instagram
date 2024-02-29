@@ -14,3 +14,6 @@ class MessageViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         return Message.objects.filter(models.Q(sender=user) | models.Q(receiver=user)).order_by('-created')
+
+    def perform_create(self, serializer):
+        serializer.save(sender=self.request.user)

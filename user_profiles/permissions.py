@@ -18,7 +18,7 @@ class IsOwnerOrSuperuserOrReadonly(BasePermission):
         return False
 
 
-class IsFollowerOrFollowedOrSuperuser(BasePermission):
+class IsFollowingOrSuperuser(BasePermission):
     def has_object_permission(self, request, view, obj):
         # Allow GET requests
         if request.method in ['GET']:
@@ -29,7 +29,24 @@ class IsFollowerOrFollowedOrSuperuser(BasePermission):
             return True
 
         # Allow users to perform actions on their own posts and comments
-        if obj.follower == request.user or obj.followed == request.user:
+        if obj.follower == request.user:
+            return True
+
+        return False
+
+
+class IsFollowerOrSuperuser(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        # Allow GET requests
+        if request.method in ['GET']:
+            return True
+
+        # Allow superusers to perform any action
+        if request.user.is_superuser:
+            return True
+
+        # Allow users to perform actions on their own posts and comments
+        if obj.followed == request.user:
             return True
 
         return False

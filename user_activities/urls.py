@@ -8,5 +8,5 @@ router.register(r'likes', LikeViewSet)
 router.register(r'comments', CommentViewSet)
 
 urlpatterns = [
-    path('api/activity/', include(router.urls)),
+    path('api/user-activity/', include(router.urls)),
 ]

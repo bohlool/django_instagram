@@ -19,6 +19,7 @@ class Profile(TimeStampedModel):
     bio = models.TextField(blank=True)
     picture = models.FileField(upload_to='user_profiles/profile/pictures/', null=True, blank=True)
     view_count = models.PositiveIntegerField(default=0)
+    is_public = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username
@@ -32,8 +33,8 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
 
 
 class Follow(TimeStampedModel):
-    follower = models.ForeignKey(User, related_name='following', on_delete=models.CASCADE)
-    followed = models.ForeignKey(User, related_name='followers', on_delete=models.CASCADE)
+    follower = models.ForeignKey(Profile, related_name='following', on_delete=models.CASCADE)
+    followed = models.ForeignKey(Profile, related_name='followers', on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
 
     def __str__(self):
