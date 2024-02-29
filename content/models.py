@@ -29,9 +29,9 @@ class Media(TimeStampedModel):
     )
     post = models.ForeignKey(Post, related_name='media', on_delete=models.CASCADE)
     media_type = models.CharField(max_length=10, choices=MEDIA_TYPES)
-    image = models.FileField(upload_to='instagram/post/image/', blank=True, null=True,
+    image = models.FileField(upload_to='content/post/image/', blank=True, null=True,
                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'svg'])])
-    video = models.FileField(upload_to='instagram/post/video/', blank=True, null=True,
+    video = models.FileField(upload_to='content/post/video/', blank=True, null=True,
                              validators=[FileExtensionValidator(allowed_extensions=['mp4'])])
 
     def __str__(self):

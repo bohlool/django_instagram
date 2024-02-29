@@ -2,12 +2,14 @@ from django.db import models
 from rest_framework import viewsets
 
 from .models import Message
+from .permissions import IsOwnerOrSuperuserOrReadonly
 from .serializers import MessageSerializer
 
 
 class MessageViewSet(viewsets.ModelViewSet):
-    queryset = Message.objects.all()
+    queryset = Message.objects.none()
     serializer_class = MessageSerializer
+    permission_classes = [IsOwnerOrSuperuserOrReadonly]
 
     def get_queryset(self):
         user = self.request.user
