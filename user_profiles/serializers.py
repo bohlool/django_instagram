@@ -22,7 +22,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class FollowRequestSerializer(serializers.ModelSerializer):
-    follower = ProfileSerializer(read_only=True)
+    follower = UserSerializer(read_only=True)
     is_active = serializers.ReadOnlyField()
 
     class Meta:
@@ -30,14 +30,16 @@ class FollowRequestSerializer(serializers.ModelSerializer):
         fields = ('id', 'follower', 'followed', 'is_active', 'created', 'modified')
 
     def create(self, validated_data):
+        follower = validated_data.get("follower")
         followed = validated_data.get('followed')
-        is_active = True if followed.is_public else False
-        return self.Meta.model.objects.create(is_active=is_active, **validated_data)
+        is_active = True if followed.profile.is_public else False
+        return self.Meta.model.objects.get_or_create(follower=follower, followed=followed,
+                                                     defaults={'is_active': is_active})
 
 
 class FollowResponseSerializer(serializers.ModelSerializer):
-    follower = ProfileSerializer(read_only=True)
-    followed = ProfileSerializer(read_only=True)
+    follower = UserSerializer(read_only=True)
+    followed = UserSerializer(read_only=True)
 
     class Meta:
         model = Follow

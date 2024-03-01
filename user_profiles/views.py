@@ -11,15 +11,14 @@ class FollowingViewSet(mixins.RetrieveModelMixin,
                        mixins.DestroyModelMixin,
                        mixins.ListModelMixin,
                        viewsets.GenericViewSet):
-    queryset = Follow.objects.none()
     serializer_class = FollowRequestSerializer
     permission_classes = [IsFollowingOrSuperuser]
 
     def get_queryset(self):
-        return Follow.objects.filter(follower=self.request.user.profile)
+        return Follow.objects.filter(follower=self.request.user)
 
     def perform_create(self, serializer):
-        serializer.save(follower=self.request.user.profile)
+        serializer.save(follower=self.request.user)
 
 
 class FollowersViewSet(mixins.RetrieveModelMixin,
@@ -27,12 +26,11 @@ class FollowersViewSet(mixins.RetrieveModelMixin,
                        mixins.DestroyModelMixin,
                        mixins.ListModelMixin,
                        viewsets.GenericViewSet):
-    queryset = Follow.objects.none()
     serializer_class = FollowResponseSerializer
     permission_classes = [IsFollowerOrSuperuser]
 
     def get_queryset(self):
-        return Follow.objects.filter(followed=self.request.user.profile)
+        return Follow.objects.filter(followed=self.request.user)
 
 
 class ProfileViewSet(mixins.RetrieveModelMixin,
