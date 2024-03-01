@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 
+from view_log.utils import track_view
 from .models import Post
 from .permissions import IsOwnerOrSuperuserOrReadonly
 from .serializers import PostSerializer
@@ -16,8 +17,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        instance.view_count += 1
-        instance.save()
+        track_view(instance, self.request.user)
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 

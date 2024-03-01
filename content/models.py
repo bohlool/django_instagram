@@ -1,6 +1,10 @@
+import re
+
 from django.contrib.auth import get_user_model
 from django.core.validators import FileExtensionValidator
 from django.db import models
+
+from view_log.utils import get_total_views
 
 User = get_user_model()
 
@@ -16,10 +20,25 @@ class TimeStampedModel(models.Model):
 class Post(TimeStampedModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     caption = models.TextField(blank=True, null=True)
-    view_count = models.PositiveIntegerField(default=0)
+    mentions = models.ManyToManyField(User, related_name='mentioned_in_posts', blank=True)
 
     def __str__(self):
         return self.caption
+
+    @property
+    def view_count(self):
+        return get_total_views(self)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.mentions.clear()  # Clear existing mentions to avoid duplicates
+        mentioned_usernames = re.findall(r'@(\w+)', self.caption)
+        for username in mentioned_usernames:
+            try:
+                user = User.objects.get(username=username)
+                self.mentions.add(user)
+            except User.DoesNotExist:
+                pass
 
 
 class Media(TimeStampedModel):
@@ -36,3 +55,12 @@ class Media(TimeStampedModel):
 
     def __str__(self):
         return f"{self.media_type} of {self.post} at {self.created}"
+
+
+class Story(TimeStampedModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.FileField(upload_to='content/stories/')
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"Story number {self.pk} of {self.user}"

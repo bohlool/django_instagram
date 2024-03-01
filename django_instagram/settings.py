@@ -33,7 +33,8 @@ INSTALLED_APPS = [
     "user_profiles.apps.UserProfilesConfig",
     "content.apps.InstagramConfig",
     "direct.apps.DirectConfig",
-    "user_activities.apps.UserActivitiesConfig"
+    "user_activities.apps.UserActivitiesConfig",
+    "view_log.apps.ViewLogConfig"
 ]
 
 MIDDLEWARE = [
