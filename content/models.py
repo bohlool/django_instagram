@@ -18,7 +18,7 @@ class TimeStampedModel(models.Model):
 
 
 class Post(TimeStampedModel):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     caption = models.TextField(blank=True, null=True)
     mentions = models.ManyToManyField(User, related_name='mentioned_in_posts', blank=True)
 

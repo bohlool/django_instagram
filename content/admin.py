@@ -5,8 +5,8 @@ from .models import Post, Media
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('id', 'author', 'caption', 'view_count')
-    list_filter = ('author',)
+    list_display = ('id', 'user', 'caption', 'view_count')
+    list_filter = ('user',)
     search_fields = ('caption',)
 
 

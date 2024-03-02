@@ -13,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author = UserSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
     view_count = serializers.ReadOnlyField()
 
     class Meta:

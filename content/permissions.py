@@ -12,7 +12,7 @@ class IsOwnerOrSuperuserOrReadonly(BasePermission):
             return True
 
         # Allow users to perform actions on their own posts and comments
-        if obj.author == request.user:
+        if obj.user == request.user:
             return True
 
         return False

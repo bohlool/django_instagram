@@ -13,7 +13,7 @@ class PostViewSet(viewsets.ModelViewSet):
     permission_classes = [IsOwnerOrSuperuserOrReadonly]
 
     def get_queryset(self):
-        return Post.objects.filter(author=self.request.user)
+        return Post.objects.filter(user=self.request.user)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -22,4 +22,4 @@ class PostViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+        serializer.save(user=self.request.user)
