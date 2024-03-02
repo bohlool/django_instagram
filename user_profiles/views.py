@@ -1,7 +1,6 @@
 from rest_framework import viewsets, mixins
-from rest_framework.response import Response
 
-from view_log.utils import track_view
+from view_log.mixins import TrackingRetrieveModelMixin
 from .models import Follow, Profile
 from .permissions import IsOwnerOrSuperuserOrReadonly, IsFollowingOrSuperuser, IsFollowerOrSuperuser
 from .serializers import FollowRequestSerializer, ProfileSerializer, FollowResponseSerializer
@@ -34,7 +33,7 @@ class FollowersViewSet(mixins.RetrieveModelMixin,
         return Follow.objects.filter(followed=self.request.user)
 
 
-class ProfileViewSet(mixins.RetrieveModelMixin,
+class ProfileViewSet(TrackingRetrieveModelMixin,
                      mixins.UpdateModelMixin,
                      mixins.DestroyModelMixin,
                      mixins.ListModelMixin,
@@ -42,9 +41,3 @@ class ProfileViewSet(mixins.RetrieveModelMixin,
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [IsOwnerOrSuperuserOrReadonly]
-
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        track_view(instance, self.request.user)
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)

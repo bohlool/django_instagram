@@ -12,3 +12,6 @@ class View(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.content_object} viewed by {self.user}"

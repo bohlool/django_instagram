@@ -22,6 +22,9 @@ class Post(TimeStampedModel):
     caption = models.TextField(blank=True, null=True)
     mentions = models.ManyToManyField(User, related_name='mentioned_in_posts', blank=True)
 
+    class Meta:
+        ordering = ('-created',)
+
     def __str__(self):
         return self.caption
 
@@ -61,6 +64,9 @@ class Story(TimeStampedModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.FileField(upload_to='content/stories/')
     is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ('-created',)
 
     def __str__(self):
         return f"Story number {self.pk} of {self.user}"

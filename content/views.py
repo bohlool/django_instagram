@@ -1,25 +1,32 @@
-from rest_framework import viewsets
-from rest_framework.response import Response
+from django.db import models
 
-from view_log.utils import track_view
-from .models import Post
+from view_log.viewsets import TrackingModelViewSet
+from .models import Post, Story
 from .permissions import IsOwnerOrSuperuserOrReadonly
-from .serializers import PostSerializer
+from .serializers import PostSerializer, StorySerializer
 
 
-class PostViewSet(viewsets.ModelViewSet):
+class PostViewSet(TrackingModelViewSet):
     queryset = Post.objects.none()
     serializer_class = PostSerializer
     permission_classes = [IsOwnerOrSuperuserOrReadonly]
 
     def get_queryset(self):
-        return Post.objects.filter(user=self.request.user)
+        return Post.objects.filter(
+            models.Q(user=self.request.user) | models.Q(user__in=self.request.user.following.all()))
 
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        track_view(instance, self.request.user)
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class StoryViewSet(TrackingModelViewSet):
+    queryset = Story.objects.none()
+    serializer_class = StorySerializer
+    permission_classes = [IsOwnerOrSuperuserOrReadonly]
+
+    def get_queryset(self):
+        return Story.objects.filter(
+            models.Q(user=self.request.user) | models.Q(user__in=self.request.user.following.all()))
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

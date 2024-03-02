@@ -5,9 +5,9 @@ from .models import Like, Comment
 
 @admin.register(Like)
 class LikeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'post', 'user')
+    list_display = ('id', 'content_object', 'user')
     list_filter = ('user',)
-    search_fields = ('post__caption', 'user__username')
+    search_fields = ('user__username',)
 
 
 @admin.register(Comment)

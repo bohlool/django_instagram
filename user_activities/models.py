@@ -1,6 +1,8 @@
 import re
 
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 from content.models import Post
@@ -17,16 +19,19 @@ class TimeStampedModel(models.Model):
 
 
 class Like(TimeStampedModel):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.post} liked by {self.user}"
+        return f"{self.content_object} liked by {self.user}"
 
 
 class Comment(TimeStampedModel):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     text = models.TextField()
     mentions = models.ManyToManyField(User, related_name='mentioned_in_comments', blank=True)
 

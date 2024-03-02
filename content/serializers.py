@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from .models import Post
+from .models import Post, Story
 
 User = get_user_model()
 
@@ -18,4 +18,9 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'author', 'caption', 'view_count', 'created', 'modified')
+        fields = ('id', 'user', 'caption', 'view_count', 'created', 'modified')
+
+
+class StorySerializer:
+    class Meta:
+        model = Story
