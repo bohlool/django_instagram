@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from view_log.utils import get_total_views
+from view_log.utils import get_views_count
 
 User = get_user_model()
 
@@ -25,8 +25,9 @@ class Profile(TimeStampedModel):
     def __str__(self):
         return self.user.username
 
+    @property
     def view_count(self):
-        return get_total_views(self)
+        return get_views_count(self)
 
 
 @receiver(post_save, sender=User)

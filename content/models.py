@@ -1,10 +1,9 @@
 import re
 
 from django.contrib.auth import get_user_model
-from django.core.validators import FileExtensionValidator
 from django.db import models
 
-from view_log.utils import get_total_views
+from view_log.utils import get_views_count
 
 User = get_user_model()
 
@@ -30,7 +29,7 @@ class Post(TimeStampedModel):
 
     @property
     def view_count(self):
-        return get_total_views(self)
+        return get_views_count(self)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -51,10 +50,7 @@ class Media(TimeStampedModel):
     )
     post = models.ForeignKey(Post, related_name='media', on_delete=models.CASCADE)
     media_type = models.CharField(max_length=10, choices=MEDIA_TYPES)
-    image = models.FileField(upload_to='content/post/image/', blank=True, null=True,
-                             validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'svg'])])
-    video = models.FileField(upload_to='content/post/video/', blank=True, null=True,
-                             validators=[FileExtensionValidator(allowed_extensions=['mp4'])])
+    media = models.FileField(upload_to='content/post/media/')
 
     def __str__(self):
         return f"{self.media_type} of {self.post} at {self.created}"
@@ -63,6 +59,7 @@ class Media(TimeStampedModel):
 class Story(TimeStampedModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.FileField(upload_to='content/stories/')
+    caption = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
 
     class Meta:

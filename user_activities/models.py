@@ -30,7 +30,10 @@ class Like(TimeStampedModel):
 
 
 class Comment(TimeStampedModel):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     text = models.TextField()
     mentions = models.ManyToManyField(User, related_name='mentioned_in_comments', blank=True)

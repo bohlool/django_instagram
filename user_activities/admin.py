@@ -8,10 +8,12 @@ class LikeAdmin(admin.ModelAdmin):
     list_display = ('id', 'content_object', 'user')
     list_filter = ('user',)
     search_fields = ('user__username',)
+    readonly_fields = ('created', 'modified')
 
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'post', 'user', 'text')
+    list_display = ('id', 'content_object', 'user', 'text')
     list_filter = ('user',)
-    search_fields = ('post__caption', 'user__username')
+    search_fields = ('text', 'user__username')
+    readonly_fields = ('created', 'modified')
