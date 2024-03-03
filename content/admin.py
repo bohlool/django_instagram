@@ -41,7 +41,7 @@ class MediaInline(admin.TabularInline):
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     inlines = [MediaInline, ViewInline, LikeInline, CommentInline]
-    list_display = ('id', 'user', 'caption', 'view_count')
+    list_display = ('id', 'user', 'caption', 'view_count', 'like_count', 'comment_count', 'created', 'modified')
     list_filter = ('user',)
     search_fields = ('caption',)
     readonly_fields = ('created', 'modified')

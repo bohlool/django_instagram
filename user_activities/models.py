@@ -5,8 +5,6 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-from content.models import Post
-
 User = get_user_model()
 
 

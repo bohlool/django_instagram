@@ -3,6 +3,7 @@ import re
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from user_activities.utils import get_likes_count, get_comments_count
 from view_log.utils import get_views_count
 
 User = get_user_model()
@@ -30,6 +31,14 @@ class Post(TimeStampedModel):
     @property
     def view_count(self):
         return get_views_count(self)
+
+    @property
+    def like_count(self):
+        return get_likes_count(self)
+
+    @property
+    def comment_count(self):
+        return get_comments_count(self)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
