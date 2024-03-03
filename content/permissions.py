@@ -1,10 +1,10 @@
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
 
 
-class IsOwnerOrSuperuserOrReadonly(BasePermission):
+class IsOwnerOrSuperuserOrReadonly(IsAuthenticated):
     def has_object_permission(self, request, view, obj):
         # Allow GET requests
-        if request.method in ['GET']:
+        if request.method in SAFE_METHODS:
             return True
 
         # Allow superusers to perform any action

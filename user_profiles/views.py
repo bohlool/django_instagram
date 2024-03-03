@@ -1,9 +1,16 @@
 from rest_framework import viewsets, mixins
+from rest_framework.permissions import IsAuthenticated
 
 from view_log.mixins import TrackingRetrieveModelMixin
 from .models import Follow, Profile
 from .permissions import IsOwnerOrSuperuserOrReadonly, IsFollowingOrSuperuser, IsFollowerOrSuperuser
-from .serializers import FollowRequestSerializer, ProfileSerializer, FollowResponseSerializer
+from .serializers import FollowRequestSerializer, ProfileSerializer, FollowResponseSerializer, RegisterSerializer
+
+
+class RegisterViewSet(mixins.CreateModelMixin,
+                      viewsets.GenericViewSet):
+    serializer_class = RegisterSerializer
+    permission_classes = []
 
 
 class FollowingViewSet(mixins.RetrieveModelMixin,
