@@ -78,8 +78,4 @@ class AccountTests(APITestCase):
         url = reverse('change-account-detail', args=[user.id])
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        try:
-            User.objects.get(pk=user.id)
-            self.fail("User is not deleted!")
-        except User.DoesNotExist:
-            pass
+        self.assertEqual(User.objects.count(), 0)
