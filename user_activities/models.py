@@ -43,7 +43,7 @@ class Like(TimeStampedModel):
         return f"{self.content_object} liked by {self.user}"
 
 
-class CommentManager:
+class CommentManager(models.Manager):
     def create_comment(self, obj, user, text):
         content_type = ContentType.objects.get_for_model(obj.__class__)
         super().create(content_type=content_type, object_id=obj.id, content_object=obj, user=user, text=text)
