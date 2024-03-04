@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from view_log.models import View
+from view_log.models import ViewLog
 
 
-@admin.register(View)
+@admin.register(ViewLog)
 class ViewAdmin(admin.ModelAdmin):
     list_display = ('id', 'content_object', 'user', 'created', 'modified')
     list_filter = ('user',)

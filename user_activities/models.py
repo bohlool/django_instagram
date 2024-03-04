@@ -16,6 +16,20 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
+class LikeManager(models.Manager):
+    def track_like(self, obj, user):
+        content_type = ContentType.objects.get_for_model(obj.__class__)
+        super().get_or_create(content_type=content_type, object_id=obj.id, content_object=obj, user=user)
+
+    def get_likes_count(self, obj):
+        content_type = ContentType.objects.get_for_model(obj.__class__)
+        return super().filter(content_type=content_type, object_id=obj.id).count()
+
+    def get_likes(self, obj):
+        content_type = ContentType.objects.get_for_model(obj.__class__)
+        return super().filter(content_type=content_type, object_id=obj.id)
+
+
 class Like(TimeStampedModel):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
@@ -23,8 +37,25 @@ class Like(TimeStampedModel):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    objects = LikeManager()
+
     def __str__(self):
         return f"{self.content_object} liked by {self.user}"
+
+
+class CommentManager:
+    def create_comment(self, obj, user, text):
+        content_type = ContentType.objects.get_for_model(obj.__class__)
+        super().create(content_type=content_type, object_id=obj.id, content_object=obj, user=user, text=text)
+
+    def get_comments_count(self, obj):
+        content_type = ContentType.objects.get_for_model(obj.__class__)
+        return super().filter(content_type=content_type, object_id=obj.id).count()
+
+    def get_comments(self, obj):
+        content_type = ContentType.objects.get_for_model(obj.__class__)
+        comments = super().filter(content_type=content_type, object_id=obj.id)
+        return comments
 
 
 class Comment(TimeStampedModel):
@@ -35,6 +66,8 @@ class Comment(TimeStampedModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     text = models.TextField()
     mentions = models.ManyToManyField(User, related_name='mentioned_in_comments', blank=True)
+
+    objects = CommentManager()
 
     def __str__(self):
         return f"{self.text} commented by {self.user}"

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
 
 from user_activities.models import Like, Comment
-from view_log.models import View
+from view_log.models import ViewLog
 from .models import Post, Media, Story
 
 
@@ -15,7 +15,7 @@ class LikeInline(GenericTabularInline):
 
 
 class ViewInline(GenericTabularInline):
-    model = View
+    model = ViewLog
     extra = 1
 
     fields = ('user',)

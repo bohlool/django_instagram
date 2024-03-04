@@ -14,12 +14,36 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
-class View(TimeStampedModel):
+class ViewManager(models.Manager):
+    def track_view(self, obj, user):
+        content_type = ContentType.objects.get_for_model(obj.__class__)
+        super().create(content_type=content_type, object_id=obj.id, content_object=obj, user=user)
+
+    def get_views_count(self, obj):
+        content_type = ContentType.objects.get_for_model(obj.__class__)
+        return super().filter(content_type=content_type, object_id=obj.id).count()
+
+    def get_views_count_by_user(self, obj, user):
+        content_type = ContentType.objects.get_for_model(obj.__class__)
+        return super().filter(content_type=content_type, object_id=obj.id, user=user).count()
+
+    def get_views(self, obj):
+        content_type = ContentType.objects.get_for_model(obj.__class__)
+        return super().filter(content_type=content_type, object_id=obj.id)
+
+    def get_views_by_user(self, obj, user):
+        content_type = ContentType.objects.get_for_model(obj.__class__)
+        return super().filter(content_type=content_type, object_id=obj.id, user=user)
+
+
+class ViewLog(TimeStampedModel):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    objects = ViewManager()
 
     def __str__(self):
         return f"{self.content_object} viewed by {self.user}"
