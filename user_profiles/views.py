@@ -4,7 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from view_log.mixins import TrackingRetrieveModelMixin
 from .models import Follow, Profile
 from .permissions import IsOwnerOrSuperuserOrReadonly, IsFollowingOrSuperuser, IsFollowerOrSuperuser
-from .serializers import FollowRequestSerializer, ProfileSerializer, FollowResponseSerializer, RegisterSerializer
+from .serializers import FollowRequestSerializer, ProfileSerializer, FollowResponseSerializer, RegisterSerializer, \
+    ChangePasswordSerializer, ChangeAccountSerializer
 
 
 class RegisterViewSet(mixins.CreateModelMixin,
@@ -48,3 +49,21 @@ class ProfileViewSet(TrackingRetrieveModelMixin,
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [IsOwnerOrSuperuserOrReadonly]
+
+
+class ChangePasswordViewSet(mixins.UpdateModelMixin, viewsets.GenericViewSet):
+    serializer_class = ChangePasswordSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
+
+class ChangeAccountViewSet(mixins.UpdateModelMixin,
+                           mixins.DestroyModelMixin,
+                           viewsets.GenericViewSet):
+    serializer_class = ChangeAccountSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user

@@ -60,3 +60,30 @@ class FollowResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
         fields = ('id', 'follower', 'followed', 'is_active', 'created', 'modified')
+
+
+class ChangePasswordSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    confirm_password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ('id', 'password', 'confirm_password')
+
+    def update(self, instance, validated_data):
+        password = validated_data.get('password')
+        confirm_password = validated_data.get('confirm_password')
+        if password == confirm_password:
+            instance.set_password(password)
+            instance.save()
+        else:
+            raise serializers.ValidationError(
+                "The passwords do not match"
+            )
+        return instance
+
+
+class ChangeAccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'first_name', 'last_name')
