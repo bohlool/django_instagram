@@ -76,3 +76,11 @@ class Story(TimeStampedModel):
 
     def __str__(self):
         return f"Story number {self.pk} of {self.user}"
+
+    @property
+    def view_count(self):
+        return get_views_count(self)
+
+    @property
+    def like_count(self):
+        return get_likes_count(self)

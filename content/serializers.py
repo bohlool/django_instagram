@@ -18,9 +18,12 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'user', 'caption', 'view_count', 'created', 'modified')
+        fields = ('id', 'user', 'caption', 'view_count', 'like_count', 'comment_count', 'created', 'modified')
 
 
-class StorySerializer:
+class StorySerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = Story
+        fields = ('id', 'user', 'content', 'caption', 'view_count', 'like_count', 'created', 'modified')
