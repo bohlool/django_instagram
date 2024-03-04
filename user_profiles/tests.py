@@ -1,4 +1,3 @@
-import django
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
@@ -32,7 +31,6 @@ class AccountTests(APITestCase):
         response = self.client.post(url,
                                     {'username': self.user_data['username'], 'password': self.user_data['password']},
                                     format='json')
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + response.data['access'])
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
 
@@ -42,7 +40,7 @@ class AccountTests(APITestCase):
         """
         user = User.objects.create_user(**self.user_data)
 
-        self.authorize_user(self.user_data['username'], self.user_data['password'])
+        self.client.force_authenticate(user=user)
 
         url = reverse('change-pass-detail', args=[user.id])
         new_password = 'p1234567'
@@ -57,8 +55,7 @@ class AccountTests(APITestCase):
         Ensure we can create a new account object.
         """
         user = User.objects.create_user(**self.user_data)
-
-        self.authorize_user(self.user_data['username'], self.user_data['password'])
+        self.client.force_authenticate(user=user)
 
         url = reverse('change-account-detail', args=[user.id])
         new_username = 'farnaz'
@@ -76,7 +73,7 @@ class AccountTests(APITestCase):
         """
         user = User.objects.create_user(**self.user_data)
 
-        self.authorize_user(self.user_data['username'], self.user_data['password'])
+        self.client.force_authenticate(user=user)
 
         url = reverse('change-account-detail', args=[user.id])
         response = self.client.delete(url)
@@ -86,13 +83,3 @@ class AccountTests(APITestCase):
             self.fail("User is not deleted!")
         except User.DoesNotExist:
             pass
-
-    def authorize_user(self, username, password):
-        url = reverse('token_obtain_pair')
-        response = self.client.post(url,
-                                    {'username': username, 'password': password},
-                                    format='json')
-        if response.status_code != status.HTTP_200_OK:
-            return False
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + response.data['access'])
-        return True
