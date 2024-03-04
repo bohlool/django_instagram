@@ -3,7 +3,7 @@ from django.contrib.contenttypes.admin import GenericTabularInline
 
 from user_activities.models import Like, Comment
 from view_log.models import View
-from .models import Post, Media
+from .models import Post, Media, Story
 
 
 class LikeInline(GenericTabularInline):
@@ -53,4 +53,13 @@ class MediaAdmin(admin.ModelAdmin):
     list_display = ('id', 'post', 'media_type', 'media')
     list_filter = ('media_type',)
     search_fields = ('post__caption',)
+    readonly_fields = ('created', 'modified')
+
+
+@admin.register(Story)
+class StoryAdmin(admin.ModelAdmin):
+    inlines = [ViewInline, LikeInline]
+    list_display = ('id', 'user', 'content', 'caption', 'view_count', 'like_count', 'created', 'modified')
+    list_filter = ('user',)
+    search_fields = ('caption',)
     readonly_fields = ('created', 'modified')
