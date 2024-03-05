@@ -7,6 +7,7 @@ functionalities for direct messaging, posts, stories, likes, and comments.
 
 - Django
 - Django REST framework
+- Celery
 - Sqlite
 - JWT Authentication
 
