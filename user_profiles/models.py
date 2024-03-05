@@ -29,6 +29,44 @@ class Profile(TimeStampedModel):
     def view_count(self):
         return ViewLog.objects.get_views_count(self)
 
+    def get_views(self):
+        return ViewLog.objects.get_views_count(self)
+
+    @property
+    def post_count(self):
+        return ViewLog.objects.get_views_count(self)
+
+    def get_posts(self):
+        return self.user.posts
+
+    @property
+    def stories_count(self):
+        return self.user.stories.filter(is_active=True).count()
+
+    def get_stories(self):
+        return self.user.stories.filter(is_active=True)
+
+    @property
+    def following_count(self):
+        return Follow.objects.get_following_count(self.user)
+
+    def get_following(self):
+        return Follow.objects.get_following(self.user)
+
+    @property
+    def followers_count(self):
+        return Follow.objects.get_followers_count(self.user)
+
+    def get_followers(self):
+        return Follow.objects.get_followers(self.user)
+
+    @property
+    def follow_requests_count(self):
+        return Follow.objects.get_follow_requests_count(self.user)
+
+    def get_follow_requests(self):
+        return Follow.objects.get_follow_requests(self.user)
+
 
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
@@ -37,10 +75,32 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
     instance.profile.save()
 
 
+class FollowManager(models.Manager):
+    def get_following_count(self, user):
+        return super().filter(follower=user, is_active=True).count()
+
+    def get_following(self, user):
+        return super().filter(follower=user, is_active=True)
+
+    def get_followers_count(self, user):
+        return super().filter(followed=user, is_active=True).count()
+
+    def get_followers(self, user):
+        return super().filter(followed=user, is_active=True).count()
+
+    def get_follow_requests_count(self, user):
+        return super().filter(followed=user, is_active=False).count()
+
+    def get_follow_requests(self, user):
+        return super().filter(followed=user, is_active=False).count()
+
+
 class Follow(TimeStampedModel):
     follower = models.ForeignKey(User, related_name='following', on_delete=models.CASCADE)
     followed = models.ForeignKey(User, related_name='followers', on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
+
+    objects = FollowManager()
 
     def __str__(self):
         return f'{self.follower} follows {self.followed}'

@@ -31,10 +31,15 @@ class RegisterSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     view_count = serializers.ReadOnlyField()
+    post_count = serializers.ReadOnlyField()
+    stories_count = serializers.ReadOnlyField()
+    following_count = serializers.ReadOnlyField()
+    followers_count = serializers.ReadOnlyField()
 
     class Meta:
         model = Profile
-        fields = ['id', 'user', 'bio', 'picture', 'is_public', 'view_count', 'created', 'modified']
+        fields = ['id', 'user', 'bio', 'picture', 'is_public', 'view_count', 'post_count', 'stories_count',
+                  'following_count', 'followers_count', 'created', 'modified']
 
 
 class FollowRequestSerializer(serializers.ModelSerializer):
