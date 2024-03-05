@@ -23,7 +23,7 @@ class AccountTests(APITestCase):
 
     def test_login(self):
         """
-        Ensure we can create a new account object.
+        Ensure we can log in by our username and password.
         """
         url = reverse('token_obtain_pair')
 
@@ -36,7 +36,7 @@ class AccountTests(APITestCase):
 
     def test_change_password(self):
         """
-        Ensure we can create a new account object.
+        Ensure we can change password of an account.
         """
         user = User.objects.create_user(**self.user_data)
 
@@ -52,7 +52,7 @@ class AccountTests(APITestCase):
 
     def test_change_account(self):
         """
-        Ensure we can create a new account object.
+        Ensure we can modify an account object.
         """
         user = User.objects.create_user(**self.user_data)
         self.client.force_authenticate(user=user)
@@ -69,7 +69,7 @@ class AccountTests(APITestCase):
 
     def test_delete_account(self):
         """
-        Ensure we can create a new account object.
+        Ensure we can delete an account object.
         """
         user = User.objects.create_user(**self.user_data)
 
