@@ -11,7 +11,7 @@ class IsOwnerOrSuperuserOrReadonly(IsAuthenticated):
         if request.user.is_superuser:
             return True
 
-        # Allow users to perform actions on their own posts and comments
+        # Allow users to perform actions on their own messages
         if obj.sender == request.user:
             return True
 

@@ -11,7 +11,7 @@ class IsOwnerOrSuperuserOrReadonly(IsAuthenticated):
         if request.user.is_superuser:
             return True
 
-        # Allow users to perform actions on their own posts and comments
+        # Allow users to perform actions on their own profiles
         if obj.user == request.user:
             return True
 
@@ -28,7 +28,7 @@ class IsFollowingOrSuperuser(IsAuthenticated):
         if request.user.is_superuser:
             return True
 
-        # Allow users to perform actions on their own posts and comments
+        # Allow users to perform actions on their own followings
         if obj.follower == request.user:
             return True
 
@@ -45,7 +45,7 @@ class IsFollowerOrSuperuser(IsAuthenticated):
         if request.user.is_superuser:
             return True
 
-        # Allow users to perform actions on their own posts and comments
+        # Allow users to perform actions on their own followers
         if obj.followed == request.user:
             return True
 
