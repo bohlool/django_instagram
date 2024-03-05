@@ -1,11 +1,15 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 
 from .models import Like, Comment
 from .permissions import IsOwnerOrSuperuserOrReadonly
 from .serializers import LikeSerializer, CommentSerializer
 
 
-class LikeViewSet(viewsets.ModelViewSet):
+class LikeViewSet(mixins.RetrieveModelMixin,
+                  mixins.CreateModelMixin,
+                  mixins.DestroyModelMixin,
+                  mixins.ListModelMixin,
+                  viewsets.GenericViewSet):
     queryset = Like.objects.none()
     serializer_class = LikeSerializer
     permission_classes = [IsOwnerOrSuperuserOrReadonly]

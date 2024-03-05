@@ -43,7 +43,6 @@ class FollowersViewSet(mixins.RetrieveModelMixin,
 
 class ProfileViewSet(TrackingRetrieveModelMixin,
                      mixins.UpdateModelMixin,
-                     mixins.DestroyModelMixin,
                      mixins.ListModelMixin,
                      viewsets.GenericViewSet):
     queryset = Profile.objects.all()
