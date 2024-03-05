@@ -14,25 +14,41 @@ functionalities for direct messaging, posts, stories, likes, and comments.
 ## Installation
 
 1. Clone the repository:
+   ```
    git clone https://github.com/bohlool/django_instagram.git
+   ```
 2. Install dependencies:
+   ```
    cd django_instagram
    python -m venv venv
    .\venv\Scripts\activate
    pip install -r requirements.txt
+   ```
 3. Set up environment variables by copying `sample_settings.py` to  `local_settings.py`  file and adding the following:
-   ADMIN_URL
-   SECRET_KEY
-   DEBUG
-   ALLOWED_HOSTS
-   STATIC_ROOT
-   MEDIA_ROOT
-   SIMPLE_JWT
+    - ADMIN_URL
+    - SECRET_KEY
+    - DEBUG
+    - ALLOWED_HOSTS
+    - STATIC_ROOT
+    - MEDIA_ROOT
+    - SIMPLE_JWT
+    - CELERY_BROKER_URL
+    - CELERY_TIMEZONE
+    - CELERY_TASK_TRACK_STARTED
+    - CELERY_RESULT_BACKEND
 4. Run migrations:
+   ```
    python manage.py makemigrations
    python manage.py migrate
-5. Start the server:
+   ```
+5. Run tests
+   ```
+   python manage.py test
+   ```
+6. Start the server:
+   ```
    python manage.py runserver
+   ```
 
 ## API Endpoints
 
