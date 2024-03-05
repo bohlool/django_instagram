@@ -32,13 +32,22 @@ class Post(TimeStampedModel):
     def view_count(self):
         return ViewLog.objects.get_views_count(self)
 
+    def get_views(self):
+        return ViewLog.objects.get_views(self)
+
     @property
     def like_count(self):
         return Like.objects.get_likes_count(self)
 
+    def get_likes(self):
+        return Like.objects.get_likes(self)
+
     @property
     def comment_count(self):
         return Comment.objects.get_comments_count(self)
+
+    def get_comments(self):
+        return Comment.objects.get_comments(self)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -81,6 +90,12 @@ class Story(TimeStampedModel):
     def view_count(self):
         return ViewLog.objects.get_views_count(self)
 
+    def get_views(self):
+        return ViewLog.objects.get_views(self)
+
     @property
     def like_count(self):
         return Like.objects.get_likes_count(self)
+
+    def get_likes(self):
+        return Like.objects.get_likes(self)

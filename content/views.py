@@ -28,7 +28,7 @@ class PostViewSet(TrackingModelViewSet):
     @action(detail=True)
     def views(self, request, *args, **kwargs):
         post = self.get_object()
-        return Response(ViewLogSerializer(ViewLog.objects.get_views(post), many=True).data)
+        return Response(ViewLogSerializer(post.get_views(), many=True).data)
 
     @action(detail=True, methods=['POST'])
     def do_like(self, request, *args, **kwargs):
@@ -39,7 +39,7 @@ class PostViewSet(TrackingModelViewSet):
     @action(detail=True)
     def likes(self, request, *args, **kwargs):
         post = self.get_object()
-        return Response(LikeSerializer(Like.objects.get_likes(post), many=True).data)
+        return Response(LikeSerializer(post.get_likes(), many=True).data)
 
     @action(detail=True, methods=['POST'])
     def do_comment(self, request, *args, **kwargs):
@@ -50,7 +50,7 @@ class PostViewSet(TrackingModelViewSet):
     @action(detail=True)
     def comments(self, request, *args, **kwargs):
         post = self.get_object()
-        return Response(CommentSerializer(Comment.objects.get_comments(post), many=True).data)
+        return Response(CommentSerializer(post.get_comments(), many=True).data)
 
 
 class StoryViewSet(TrackingModelViewSet):
@@ -69,7 +69,7 @@ class StoryViewSet(TrackingModelViewSet):
     @action(detail=True)
     def views(self, request, *args, **kwargs):
         story = self.get_object()
-        return Response(ViewLogSerializer(ViewLog.objects.get_views(story), many=True).data)
+        return Response(ViewLogSerializer(story.get_views(), many=True).data)
 
     @action(detail=True, methods=['POST'])
     def do_like(self, request, *args, **kwargs):
@@ -80,4 +80,4 @@ class StoryViewSet(TrackingModelViewSet):
     @action(detail=True)
     def likes(self, request, *args, **kwargs):
         story = self.get_object()
-        return Response(LikeSerializer(Like.objects.get_likes(story), many=True).data)
+        return Response(LikeSerializer(story.get_likes(), many=True).data)
