@@ -18,7 +18,7 @@ class TimeStampedModel(models.Model):
 
 
 class Post(TimeStampedModel):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     caption = models.TextField(blank=True, null=True)
     mentions = models.ManyToManyField(User, related_name='mentioned_in_posts', blank=True)
 
@@ -75,7 +75,7 @@ class Media(TimeStampedModel):
 
 
 class Story(TimeStampedModel):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='stories')
     content = models.FileField(upload_to='content/stories/')
     caption = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
