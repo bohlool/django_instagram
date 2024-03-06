@@ -45,5 +45,9 @@ class ViewLog(TimeStampedModel):
 
     objects = ViewManager()
 
+    class Meta:
+        verbose_name = 'View Log'
+        verbose_name_plural = 'View Logs'
+
     def __str__(self):
         return f"{self.content_object} viewed by {self.user}"

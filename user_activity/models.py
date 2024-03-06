@@ -47,6 +47,10 @@ class Like(TimeStampedModel):
 
     objects = LikeManager()
 
+    class Meta:
+        verbose_name = 'Like'
+        verbose_name_plural = 'Likes'
+
     def __str__(self):
         return f"{self.content_object} liked by {self.user}"
 
@@ -76,6 +80,10 @@ class Comment(TimeStampedModel):
     mentions = models.ManyToManyField(User, related_name='mentioned_in_comments', blank=True)
 
     objects = CommentManager()
+
+    class Meta:
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
 
     def __str__(self):
         return f"{self.text} commented by {self.user}"

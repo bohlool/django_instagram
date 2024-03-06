@@ -22,6 +22,10 @@ class Profile(TimeStampedModel):
     picture = models.FileField(upload_to='user_profile/profile/pictures/', null=True, blank=True)
     is_public = models.BooleanField(default=False)
 
+    class Meta:
+        verbose_name = 'Profile'
+        verbose_name_plural = 'Profiles'
+
     def __str__(self):
         return self.user.username
 
@@ -101,6 +105,10 @@ class Follow(TimeStampedModel):
     is_active = models.BooleanField(default=False)
 
     objects = FollowManager()
+
+    class Meta:
+        verbose_name = 'Follow'
+        verbose_name_plural = 'Follows'
 
     def __str__(self):
         return f'{self.follower} follows {self.followed}'

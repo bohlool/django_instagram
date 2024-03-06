@@ -3,8 +3,8 @@ import re
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from user_activity.models import Like, Comment
 from log.models import ViewLog
+from user_activity.models import Like, Comment
 
 User = get_user_model()
 
@@ -23,6 +23,8 @@ class Post(TimeStampedModel):
     mentions = models.ManyToManyField(User, related_name='mentioned_in_posts', blank=True)
 
     class Meta:
+        verbose_name = 'Post'
+        verbose_name_plural = 'Posts'
         ordering = ('-created',)
 
     def __str__(self):
@@ -70,6 +72,10 @@ class Media(TimeStampedModel):
     media_type = models.CharField(max_length=10, choices=MEDIA_TYPES)
     media = models.FileField(upload_to='content/post/media/')
 
+    class Meta:
+        verbose_name = 'Media'
+        verbose_name_plural = 'Media'
+
     def __str__(self):
         return f"{self.media_type} of {self.post} at {self.created}"
 
@@ -81,6 +87,8 @@ class Story(TimeStampedModel):
     is_active = models.BooleanField(default=True)
 
     class Meta:
+        verbose_name = 'Story'
+        verbose_name_plural = 'Stories'
         ordering = ('-created',)
 
     def __str__(self):

@@ -23,5 +23,10 @@ class Message(TimeStampedModel):
     audio_file = models.FileField(upload_to='direct/messages/audio/', blank=True, null=True)
     video_file = models.FileField(upload_to='direct/messages/video/', blank=True, null=True)
 
+    class Meta:
+        verbose_name = 'Message'
+        verbose_name_plural = 'Messages'
+        ordering = ('-created',)
+
     def __str__(self):
         return f"Message from {self.sender} to {self.receiver} at {self.created}"
