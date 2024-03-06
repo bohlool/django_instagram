@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from .models import Post, Story
+from .models import Post, Story, Media
 
 User = get_user_model()
 
@@ -19,6 +19,12 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'user', 'caption', 'view_count', 'like_count', 'comment_count', 'created', 'modified')
+
+
+class MediaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Media
+        fields = ('id', 'post', 'media_type', 'media', 'created', 'modified')
 
 
 class StorySerializer(serializers.ModelSerializer):

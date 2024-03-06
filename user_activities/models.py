@@ -29,6 +29,14 @@ class LikeManager(models.Manager):
         content_type = ContentType.objects.get_for_model(obj.__class__)
         return super().filter(content_type=content_type, object_id=obj.id)
 
+    def unlike(self, obj, user):
+        content_type = ContentType.objects.get_for_model(obj.__class__)
+        try:
+            like = super().get(content_type=content_type, object_id=obj.id, user=user)
+            like.delete()
+        except Like.DoesNotExist:
+            pass
+
 
 class Like(TimeStampedModel):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
