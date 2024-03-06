@@ -59,7 +59,7 @@ class MediaAdmin(admin.ModelAdmin):
 @admin.register(Story)
 class StoryAdmin(admin.ModelAdmin):
     inlines = [ViewInline, LikeInline]
-    list_display = ('id', 'user', 'content', 'caption', 'view_count', 'like_count', 'created', 'modified')
-    list_filter = ('user',)
+    list_display = ('id', 'user', 'content', 'caption', 'is_active', 'view_count', 'like_count', 'created', 'modified')
+    list_filter = ('user', 'is_active')
     search_fields = ('caption',)
     readonly_fields = ('created', 'modified')
