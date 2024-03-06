@@ -14,7 +14,10 @@ functionalities for direct messaging, posts, stories, likes, and comments.
 ## Installation
 
 Install a message broker:
-   - Install rabbitmq or redis according to your preference because celery needs it for working. 
+
+- Install rabbitmq or redis according to your preference because celery needs it for working.
+
+Install django project:
 
 1. Clone the repository:
    ```
