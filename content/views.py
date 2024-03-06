@@ -5,6 +5,7 @@ from rest_framework.response import Response
 
 from user_activities.models import Like, Comment
 from user_activities.serializers import CommentSerializer, LikeSerializer
+from user_profiles.models import Follow
 from view_log.models import ViewLog
 from view_log.serializers import ViewLogSerializer
 from view_log.viewsets import TrackingModelViewSet
@@ -19,8 +20,9 @@ class PostViewSet(TrackingModelViewSet):
     permission_classes = [IsOwnerOrSuperuserOrReadonly]
 
     def get_queryset(self):
+        following_users = Follow.objects.get_following(self.request.user).values_list('follower', flat=True)
         return Post.objects.filter(
-            models.Q(user=self.request.user) | models.Q(user__in=self.request.user.following.all()))
+            models.Q(user=self.request.user) | models.Q(user__in=following_users))
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -59,9 +61,9 @@ class StoryViewSet(TrackingModelViewSet):
     permission_classes = [IsOwnerOrSuperuserOrReadonly]
 
     def get_queryset(self):
+        following_users = Follow.objects.get_following(self.request.user).values_list('follower', flat=True)
         return Story.objects.filter(
-            (models.Q(user=self.request.user) | models.Q(user__in=self.request.user.following.all())) & models.Q(
-                is_active=True))
+            (models.Q(user=self.request.user) | models.Q(user__in=following_users)) & models.Q(is_active=True))
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
