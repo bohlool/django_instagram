@@ -54,7 +54,7 @@ Install a message broker:
    ```
 7. Start the Celery worker:
    ```
-   celery -A django_instagram worker --loglevel=info
+   celery -A django_instagram worker -P threads --loglevel=info
    ```
 8. Start the Celery Beat scheduler:
    ```
