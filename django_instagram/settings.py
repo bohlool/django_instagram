@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     # My apps
-    "user_profiles.apps.UserProfilesConfig",
+    "user_profile.apps.UserProfilesConfig",
     "content.apps.InstagramConfig",
     "direct.apps.DirectConfig",
     "user_activity.apps.UserActivitiesConfig",

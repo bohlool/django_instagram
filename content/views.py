@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from user_activity.models import Like, Comment
 from user_activity.serializers import CommentSerializer, LikeSerializer
-from user_profiles.models import Follow
+from user_profile.models import Follow
 from log.serializers import ViewLogSerializer
 from log.viewsets import ViewTrackingModelViewSet
 from .models import Post, Story, Media

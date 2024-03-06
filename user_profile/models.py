@@ -19,7 +19,7 @@ class TimeStampedModel(models.Model):
 class Profile(TimeStampedModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
-    picture = models.FileField(upload_to='user_profiles/profile/pictures/', null=True, blank=True)
+    picture = models.FileField(upload_to='user_profile/profile/pictures/', null=True, blank=True)
     is_public = models.BooleanField(default=False)
 
     def __str__(self):
