@@ -17,7 +17,7 @@ class TimeStampedModel(models.Model):
 class ViewManager(models.Manager):
     def track_view(self, obj, user):
         content_type = ContentType.objects.get_for_model(obj.__class__)
-        super().create(content_type=content_type, object_id=obj.id, content_object=obj, user=user)
+        super().create(content_type=content_type, object_id=obj.id, user=user)
 
     def get_views_count(self, obj):
         content_type = ContentType.objects.get_for_model(obj.__class__)

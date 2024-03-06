@@ -19,7 +19,7 @@ class TimeStampedModel(models.Model):
 class LikeManager(models.Manager):
     def track_like(self, obj, user):
         content_type = ContentType.objects.get_for_model(obj.__class__)
-        super().get_or_create(content_type=content_type, object_id=obj.id, content_object=obj, user=user)
+        super().get_or_create(content_type=content_type, object_id=obj.id, user=user)
 
     def get_likes_count(self, obj):
         content_type = ContentType.objects.get_for_model(obj.__class__)
@@ -46,7 +46,7 @@ class Like(TimeStampedModel):
 class CommentManager(models.Manager):
     def create_comment(self, obj, user, text):
         content_type = ContentType.objects.get_for_model(obj.__class__)
-        super().create(content_type=content_type, object_id=obj.id, content_object=obj, user=user, text=text)
+        super().create(content_type=content_type, object_id=obj.id, user=user, text=text)
 
     def get_comments_count(self, obj):
         content_type = ContentType.objects.get_for_model(obj.__class__)
