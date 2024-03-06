@@ -13,6 +13,9 @@ functionalities for direct messaging, posts, stories, likes, and comments.
 
 ## Installation
 
+Install a message broker:
+   - Install rabbitmq or redis according to your preference because celery needs it for working. 
+
 1. Clone the repository:
    ```
    git clone https://github.com/bohlool/django_instagram.git
@@ -48,6 +51,14 @@ functionalities for direct messaging, posts, stories, likes, and comments.
 6. Start the server:
    ```
    python manage.py runserver
+   ```
+7. Start the Celery worker:
+   ```
+   celery -A django_instagram worker --loglevel=info
+   ```
+8. Start the Celery Beat scheduler:
+   ```
+   celery -A django_instagram beat --loglevel=info
    ```
 
 ## API Endpoints
