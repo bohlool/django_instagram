@@ -6,14 +6,14 @@ from rest_framework.response import Response
 from user_activities.models import Like, Comment
 from user_activities.serializers import CommentSerializer, LikeSerializer
 from user_profiles.models import Follow
-from view_log.serializers import ViewLogSerializer
-from view_log.viewsets import TrackingModelViewSet
+from log.serializers import ViewLogSerializer
+from log.viewsets import ViewTrackingModelViewSet
 from .models import Post, Story, Media
 from .permissions import IsOwnerOrSuperuserOrReadonly, IsMediaOwnerOrSuperuserOrReadonly
 from .serializers import PostSerializer, StorySerializer, MediaSerializer
 
 
-class PostViewSet(TrackingModelViewSet):
+class PostViewSet(ViewTrackingModelViewSet):
     queryset = Post.objects.none()
     serializer_class = PostSerializer
     permission_classes = [IsOwnerOrSuperuserOrReadonly]
@@ -65,7 +65,7 @@ class PostViewSet(TrackingModelViewSet):
         return Response(CommentSerializer(post.get_comments(), many=True).data)
 
 
-class MediaViewSet(TrackingModelViewSet):
+class MediaViewSet(ViewTrackingModelViewSet):
     queryset = Media.objects.none()
     serializer_class = MediaSerializer
     permission_classes = [IsMediaOwnerOrSuperuserOrReadonly]
@@ -76,7 +76,7 @@ class MediaViewSet(TrackingModelViewSet):
             models.Q(post__user=self.request.user) | models.Q(post__user__in=following_users))
 
 
-class StoryViewSet(TrackingModelViewSet):
+class StoryViewSet(ViewTrackingModelViewSet):
     queryset = Story.objects.none()
     serializer_class = StorySerializer
     permission_classes = [IsOwnerOrSuperuserOrReadonly]

@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from user_activities.models import Like, Comment
-from view_log.models import ViewLog
+from log.models import ViewLog
 
 User = get_user_model()
 

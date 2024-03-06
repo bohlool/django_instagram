@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from content.serializers import StorySerializer, PostSerializer
-from view_log.mixins import TrackingRetrieveModelMixin
+from log.mixins import ViewTrackingRetrieveModelMixin
 from .models import Follow, Profile
 from .permissions import IsOwnerOrSuperuserOrReadonly, IsFollowingOrSuperuser, IsFollowerOrSuperuser, \
     IsOwnerOrSuperuserOrPublicProfileOrFollowingReadonly
@@ -45,7 +45,7 @@ class FollowersViewSet(mixins.RetrieveModelMixin,
         return Follow.objects.filter(followed=self.request.user)
 
 
-class ProfileViewSet(TrackingRetrieveModelMixin,
+class ProfileViewSet(ViewTrackingRetrieveModelMixin,
                      mixins.UpdateModelMixin,
                      mixins.ListModelMixin,
                      viewsets.GenericViewSet):

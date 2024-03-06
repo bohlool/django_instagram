@@ -1,10 +1,10 @@
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.response import Response
 
-from view_log.models import ViewLog
+from log.models import ViewLog
 
 
-class TrackingRetrieveModelMixin(RetrieveModelMixin):
+class ViewTrackingRetrieveModelMixin(RetrieveModelMixin):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         ViewLog.objects.track_view(instance, self.request.user)

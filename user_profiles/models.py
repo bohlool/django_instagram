@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from view_log.models import ViewLog
+from log.models import ViewLog
 
 User = get_user_model()
 

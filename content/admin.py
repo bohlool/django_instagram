@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
 
 from user_activities.models import Like, Comment
-from view_log.models import ViewLog
+from log.models import ViewLog
 from .models import Post, Media, Story
 
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from view_log.models import ViewLog
+from log.models import ViewLog
 
 
 @admin.register(ViewLog)
