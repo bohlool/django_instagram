@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     "user_profiles.apps.UserProfilesConfig",
     "content.apps.InstagramConfig",
     "direct.apps.DirectConfig",
-    "user_activities.apps.UserActivitiesConfig",
+    "user_activity.apps.UserActivitiesConfig",
     "log.apps.ViewLogConfig",
     # Third party apps
     'django_celery_results',

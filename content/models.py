@@ -3,7 +3,7 @@ import re
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from user_activities.models import Like, Comment
+from user_activity.models import Like, Comment
 from log.models import ViewLog
 
 User = get_user_model()

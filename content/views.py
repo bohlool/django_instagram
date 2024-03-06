@@ -3,8 +3,8 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from user_activities.models import Like, Comment
-from user_activities.serializers import CommentSerializer, LikeSerializer
+from user_activity.models import Like, Comment
+from user_activity.serializers import CommentSerializer, LikeSerializer
 from user_profiles.models import Follow
 from log.serializers import ViewLogSerializer
 from log.viewsets import ViewTrackingModelViewSet
